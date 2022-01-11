@@ -4,6 +4,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import Login from "./views/Login";
 import SignUp from "./views/SignUp"
+import Subscriptions from "./views/Subscriptions"
 
 export default function App() {
 
@@ -14,8 +15,8 @@ export default function App() {
             <Routes>
                 <Route path="/" element={<Login />} />
                 <Route path="/sign-up" element={<SignUp />} />
+                <Route path="/subscriptions" element={<Subscriptions />} />
             </Routes>
-            <Login />
         </BrowserRouter>
 
     );

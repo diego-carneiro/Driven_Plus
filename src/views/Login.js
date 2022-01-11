@@ -2,19 +2,27 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 import DrivenLogo from "../components/DrivenLogo";
 
 export default function Login() {
-     
+
+    const navigate = useNavigate();
+
+    const storage = (key, value) => {
+
+        localStorage.setItem(key, value);
+    }
+
     const [info, setInfo] = useState("");
 
     const initialValue = {
         email: "",
         password: "",
     }
-    
+
     const [input, setInput] = useState(initialValue);
 
     function onChange(ev) {
@@ -30,8 +38,10 @@ export default function Login() {
         promise.then(response => {
             console.log(response);
             setInfo(response.data);
+            storage("userToken", response.data.token);
+            navigate("/subscriptions");
         });
-        promise.catch(error => alert("Erro ao realizar cadastro"));
+        promise.catch(error => alert("Erro ao realizar login"));
     }
 
     return (
@@ -39,8 +49,8 @@ export default function Login() {
         <Container>
             <Form onSubmit={onSubmit}>
                 <DrivenLogo />
-                <Input placeholder="E-mail" type="text" name="email" onChange={onChange}/>
-                <Input placeholder="Senha" type="password" name="password" onChange={onChange}/>
+                <Input placeholder="E-mail" type="text" name="email" onChange={onChange} />
+                <Input placeholder="Senha" type="password" name="password" onChange={onChange} />
                 <Button>ENTRAR</Button>
                 <Link to="/sign-up">
                     <SignUp>
