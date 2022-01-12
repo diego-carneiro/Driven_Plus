@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom"
 import axios from "axios";
 
 import Loading from "../components/Loading";
@@ -28,7 +29,6 @@ export default function Subscriptions() {
         });
         promise.catch(error => alert(error))
     }, []);
-    console.log(info);
 
     if (info.length === 0) {
         return (
@@ -37,7 +37,7 @@ export default function Subscriptions() {
                     <p>Escolha seu Plano</p>
                     <Loading />
                 </Container>
-              
+
             </>
         )
     }
@@ -46,19 +46,23 @@ export default function Subscriptions() {
         <Container>
             <p>Escolha seu Plano</p>
             {info.map((items) => (
-                <PassBox>
-                    <img src={items.image} />
-                </PassBox>))}
+                <Link to={`/subscriptions/${items.id}`} >
+                    <PassBox>
+                        <img src={items.image} />
+                        <p>R${items.price}</p>
+                    </PassBox>
+                </Link>
+            ))}
         </Container>
     );
-
-}// ::::::::::Styled-Components::::::::::
+}
+// ::::::::::Styled-Components::::::::::
 
 const Container = styled.div`
     width: 100vw;
     height: 100vh;
     background-color: black;
-    padding: 120px 0px 100px 0px;
+    padding: 30px 0px 100px 0px;
 
     display: flex;
     flex-direction: column;
@@ -68,6 +72,7 @@ const Container = styled.div`
         font-size: 32px;
         font-weight: 700;
         color: #FFFFFF;
+        margin-bottom: 10px;
     }
 `;
 const PassBox = styled.div`
@@ -75,9 +80,16 @@ const PassBox = styled.div`
     height: 180px;
     border-radius: 12px;
     border: 3px solid #7E7E7E;
-    
+    padding: 38px 16px 38px 16px;
+    margin-bottom: 10px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
     p{
-        color: green;
+        font-size: 24px;
+        color: #FFFFFF;
     }
     
 `
