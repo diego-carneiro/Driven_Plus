@@ -8,7 +8,6 @@ const GlobalStyle = createGlobalStyle`
         padding: 0;
         font-style: normal;
         font-weight: normal;
-        font-size: 70px;
         text-decoration: none;
         
     }

@@ -65,7 +65,7 @@ export default function Login() {
 // ::::::::::Styled-Components::::::::::
 const Container = styled.div`
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: black;
     padding: 120px 0px 100px 0px;
 

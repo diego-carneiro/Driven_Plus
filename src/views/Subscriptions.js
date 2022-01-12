@@ -49,7 +49,7 @@ export default function Subscriptions() {
                 <Link to={`/subscriptions/${items.id}`} >
                     <PassBox>
                         <img src={items.image} />
-                        <p>R${items.price}</p>
+                        <p>R$ {items.price}</p>
                     </PassBox>
                 </Link>
             ))}
@@ -60,7 +60,7 @@ export default function Subscriptions() {
 
 const Container = styled.div`
     width: 100vw;
-    height: 100vh;
+    min-height: 100vh;
     background-color: black;
     padding: 30px 0px 100px 0px;
 
@@ -72,7 +72,7 @@ const Container = styled.div`
         font-size: 32px;
         font-weight: 700;
         color: #FFFFFF;
-        margin-bottom: 10px;
+        margin-bottom: 15px;
     }
 `;
 const PassBox = styled.div`
