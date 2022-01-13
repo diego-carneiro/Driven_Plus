@@ -6,14 +6,12 @@ import { useParams } from "react-router-dom"
 import axios from "axios";
 
 import Loading from "../components/Loading";
+import { AuthContext } from "../providers/auth";
 
 export default function Subscriptions() {
 
     const [info, setInfo] = useState([]);
-    const [token, setToken] = useState(() => {
-        const storedToken = localStorage.getItem("userToken");
-        return storedToken;
-    });
+    const { token } = React.useContext(AuthContext);
 
     useEffect(() => {
         const promise = axios.get("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions/memberships",

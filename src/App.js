@@ -13,7 +13,7 @@ import { AuthContext } from "./providers/auth";
 export default function App() {
 
     const user = React.useContext(AuthContext);
-console.log(user);
+
     return (
 
         <BrowserRouter>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styled from 'styled-components'
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -11,16 +11,18 @@ import { AuthContext } from "../providers/auth";
 
 export default function Home() {
 
+    const { token } = React.useContext(AuthContext);
     const navigate = useNavigate();
-    const { user, setUser } = React.useContext(AuthContext);
-    const [token, setToken] = useState(() => {
-        const storedToken = localStorage.getItem("userToken");
-        return storedToken;
+    const [user, setUser] = useState(() => {
+        const userStorage = localStorage.getItem("user");
+        return (JSON.parse(userStorage));
     });
+
     const [userId, setUserId] = useState(() => {
         const storedId = localStorage.getItem("userId");
         return storedId;
     });
+    console.log(user);
 
     function cancelSubscription() {
         const promise = axios.delete("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
@@ -41,13 +43,13 @@ export default function Home() {
             <Header>
                 <Logo src={user.membership.image} />
                 <IconContext.Provider value={{ color: "white", size: "34px" }}>
-                    <Link to={`users/${userId}`}>
+                    <Link to={`/users/${userId}`}>
                         <BsPersonCircle />
                     </Link>
                 </IconContext.Provider>
             </Header>
             <Content>
-                <h1>Olá, fulano</h1>
+                <h1>Olá, {user.name}</h1>
                 <ButtonSection>
                     {user.membership.perks.map((items) => (
                         <Button>{items.title}</Button>
@@ -56,9 +58,9 @@ export default function Home() {
                 </ButtonSection>
             </Content>
             <Membership>
-                {/* <Link to="/subscriptions"> */}
-                <Button>Mudar plano</Button>
-                {/* </Link> */}
+                <Link to="/subscriptions">
+                    <Button>Mudar plano</Button>
+                </Link>
                 <Button onClick={cancelSubscription}>Cancelar plano</Button>
             </Membership>
         </Container>
@@ -91,7 +93,7 @@ const Header = styled.div`
     align-items: center;
 `
 const Logo = styled.img`
-    size: 15px;
+    height: 50px;
 `
 const Content = styled.div`
     width: 100%;

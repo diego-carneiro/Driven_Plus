@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 export default function Login() {
+
+    const navigate = useNavigate();
 
     const initialValue = {
         email: "",
@@ -26,7 +29,7 @@ export default function Login() {
 
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/sign-up", input);
         promise.then(response => {
-
+            navigate("/");
         });
         promise.catch(error => alert("Erro ao realizar cadastro"));
     }

@@ -35,12 +35,7 @@ export default function Buy() {
     const [input, setInput] = useState(initialValue);
     const [info, setInfo] = useState([]);
     const [warning, setWarning] = useState(false);
-    const [token, setToken] = useState(() => {
-        const storedToken = localStorage.getItem("userToken");
-        return storedToken;
-    });
-
-    const { setUser } = React.useContext(AuthContext);
+    const { token } = React.useContext(AuthContext);
 
     function onChange(ev) {
         const { name, value } = ev.target
@@ -73,7 +68,6 @@ export default function Buy() {
         promise.catch(error => alert("Erro ao realizar compra"))
         promise.then(response => {  
             storage("user", JSON.stringify(response.data));
-            setUser(response.data);
             storage("userId", response.data.id);
             navigate("/home");
         })

@@ -11,20 +11,17 @@ import DrivenLogo from "../components/DrivenLogo";
 export default function Login() {
 
     const navigate = useNavigate();
-
-    const storage = (key, value) => {
-
-        localStorage.setItem(key, value);
-    }
-
-    const [info, setInfo] = useState("");
-
+    const [info, setInfo] = useState("");  
     const initialValue = {
         email: "",
         password: "",
     }
-
     const [input, setInput] = useState(initialValue);
+    const storage = (key, value) => {
+        localStorage.setItem(key, value);
+    }
+
+  
 
     function onChange(ev) {
         const { name, value } = ev.target
@@ -37,10 +34,10 @@ export default function Login() {
 
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", input);
         promise.then(response => {
-            console.log(response);
             setInfo(response.data);
+            storage("user", JSON.stringify(response.data));
             storage("userToken", response.data.token);
-            navigate("/subscriptions");
+            navigate(response.data.membership ? "/home" : "/subscriptions");
         });
         promise.catch(error => alert("Erro ao realizar login"));
     }

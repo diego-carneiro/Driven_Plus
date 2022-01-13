@@ -5,26 +5,19 @@ export const AuthContext = React.createContext({});
 
 export const AuthProvider = ({ children }) => {
 
-    const [user, setUser] = useState({
-        id: "",
-        name: "",
-        image: "",
-        price: "",
-        perks: [],
-    });
+    const [token, setToken] = useState("");
 
     useEffect(() => {
-        const userStorage = localStorage.getItem("user");
+        const tokenStorage = localStorage.getItem("userToken");
 
-        if (userStorage) {
-            setUser(JSON.parse(userStorage));
+        if (tokenStorage) {
+            setToken(tokenStorage);
         } 
     }, []);
 
     return (
-        <AuthContext.Provider value={{ user, setUser }}>
+        <AuthContext.Provider value={{ token, setToken }}>
             {children}
         </ AuthContext.Provider>
     )
-
 }
