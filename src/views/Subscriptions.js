@@ -47,7 +47,7 @@ export default function Subscriptions() {
             <p>Escolha seu Plano</p>
             {info.map((items) => (
                 <Link to={`/subscriptions/${items.id}`} >
-                    <PassBox>
+                    <PassBox key={items.id}>
                         <img src={items.image} />
                         <p>R$ {items.price}</p>
                     </PassBox>

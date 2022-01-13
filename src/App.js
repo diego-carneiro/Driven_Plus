@@ -7,9 +7,13 @@ import SignUp from "./views/SignUp"
 import Subscriptions from "./views/Subscriptions"
 import Buy from "./views/Buy";
 import Home from  "./views/Home";
+import Users from "./views/Users";
+import { AuthContext } from "./providers/auth";
 
 export default function App() {
 
+    const user = React.useContext(AuthContext);
+console.log(user);
     return (
 
         <BrowserRouter>
@@ -20,6 +24,7 @@ export default function App() {
                 <Route path="/subscriptions" element={<Subscriptions />} />
                 <Route path="/subscriptions/:idPlano" element={<Buy />} />
                 <Route path="/home" element={<Home />} />
+                <Route path="/users/:idUser" element={<Users />} />
             </Routes>
         </BrowserRouter>
 

@@ -12,11 +12,16 @@ import { IconContext } from "react-icons";
 import axios from "axios";
 
 import Loading from "../components/Loading";
+import { AuthContext } from "../providers/auth";
 
 export default function Buy() {
 
-    const { idPlano } = useParams();
+    const storage = (key, value) => {
 
+        localStorage.setItem(key, value);
+    }
+
+    const { idPlano } = useParams();
     const navigate = useNavigate();
 
     const initialValue = {
@@ -35,6 +40,8 @@ export default function Buy() {
         return storedToken;
     });
 
+    const { setUser } = React.useContext(AuthContext);
+
     function onChange(ev) {
         const { name, value } = ev.target
 
@@ -51,7 +58,6 @@ export default function Buy() {
         );
         promise.then(response => {
             setInfo(response.data);
-            console.log(response);
         });
         promise.catch(error => alert(error))
     }, []);
@@ -65,9 +71,11 @@ export default function Buy() {
             }
         );
         promise.catch(error => alert("Erro ao realizar compra"))
-        promise.then(response => {
+        promise.then(response => {  
+            storage("user", JSON.stringify(response.data));
+            setUser(response.data);
+            storage("userId", response.data.id);
             navigate("/home");
-            console.log(response.data);
         })
     }
 
