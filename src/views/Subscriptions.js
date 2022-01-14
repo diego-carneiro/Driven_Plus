@@ -25,7 +25,7 @@ export default function Subscriptions() {
             console.log(response);
         });
         promise.catch(error => alert(error))
-    }, []);
+    }, []); //eslint-disable-line
 
     if (info.length === 0) {
         return (
