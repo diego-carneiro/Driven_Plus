@@ -55,7 +55,7 @@ export default function Buy() {
             setInfo(response.data);
         });
         promise.catch(error => alert(error))
-    }, []);
+    }, []); //eslint-disable-line
 
     function buyPlan() {
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions", input,
@@ -67,7 +67,7 @@ export default function Buy() {
         );
         promise.catch(error => alert("Erro ao realizar compra"))
         promise.then(response => {  
-            storage("user", JSON.stringify(response.data));
+            storage("userPurchase", JSON.stringify(response.data));
             storage("userId", response.data.id);
             navigate("/home");
         })
@@ -166,6 +166,9 @@ const Container = styled.div`
         font-size: 32px;
         font-weight: 700;
         color: #FFFFFF;
+    }
+    img{
+        margin-right: 22px;
     }
 `;
 const WarningContainer = styled.div`

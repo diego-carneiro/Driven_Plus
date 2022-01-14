@@ -11,7 +11,6 @@ import DrivenLogo from "../components/DrivenLogo";
 export default function Login() {
 
     const navigate = useNavigate();
-    const [info, setInfo] = useState("");  
     const initialValue = {
         email: "",
         password: "",
@@ -34,12 +33,11 @@ export default function Login() {
 
         const promise = axios.post("https://mock-api.driven.com.br/api/v4/driven-plus/auth/login", input);
         promise.then(response => {
-            setInfo(response.data);
             storage("user", JSON.stringify(response.data));
             storage("userToken", response.data.token);
-            navigate(response.data.membership ? "/home" : "/subscriptions");
+            navigate(response.data.membership ? "/subscriptions" : "/subscriptions");
         });
-        promise.catch(error => alert("Erro ao realizar login"));
+        promise.catch(() => alert("Erro ao realizar login"));
     }
 
     return (

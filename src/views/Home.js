@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import styled from 'styled-components'
 import { useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,12 +17,15 @@ export default function Home() {
         const userStorage = localStorage.getItem("user");
         return (JSON.parse(userStorage));
     });
+    const [userPurchase] = useState(() => {
+        const storedPurchase = localStorage.getItem("userPurchase");
+        return (JSON.parse(storedPurchase));
+    })
 
     const [userId, setUserId] = useState(() => {
         const storedId = localStorage.getItem("userId");
         return storedId;
     });
-    console.log(user);
 
     function cancelSubscription() {
         const promise = axios.delete("https://mock-api.driven.com.br/api/v4/driven-plus/subscriptions",
@@ -41,7 +44,7 @@ export default function Home() {
     return (
         <Container>
             <Header>
-                <Logo src={user.membership.image} />
+                <Logo src={userPurchase.membership.image} />
                 <IconContext.Provider value={{ color: "white", size: "34px" }}>
                     <Link to={`/users/${userId}`}>
                         <BsPersonCircle />
@@ -50,19 +53,12 @@ export default function Home() {
             </Header>
             <Content>
                 <h1>Olá, {user.name}</h1>
-                <ButtonSection>
-                    {user.membership.perks.map((items) => (
-                        <Button>{items.title}</Button>
-                    ))}
-
-                </ButtonSection>
-            </Content>
-            <Membership>
-                <Link to="/subscriptions">
-                    <Button>Mudar plano</Button>
-                </Link>
+                {userPurchase.membership.perks.map((items, index) => (
+                    <Button key={items.id}><a href={items.link}>{items.title}</a></Button>
+                ))}
+                <Button onClick={() => navigate("/subscriptions")}>Mudar plano</Button>
                 <Button onClick={cancelSubscription}>Cancelar plano</Button>
-            </Membership>
+            </Content>
         </Container>
     );
 }
@@ -82,6 +78,10 @@ const Container = styled.div`
         font-weight: 700;
         color: #FFFFFF;
     }
+    a{
+        text-decoration: none;
+        color: inherit;
+    }
 `
 const Header = styled.div`
     width: 100%;
@@ -97,34 +97,12 @@ const Logo = styled.img`
 `
 const Content = styled.div`
     width: 100%;
-    height: 460px;
+    height: fit-content;
 
     display: flex;
     flex-direction: column;
+    flex-grow: 1;
     align-items: center;
-`
-const ButtonSection = styled.div`
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-const Perks = styled.div`
-    width: 100%;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-`
-const Membership = styled.div`
-    width: 100%;
-    margin-bottom: 20px;
-
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-end;
 `
 const Button = styled.button`
     width: 100%;
@@ -137,7 +115,11 @@ const Button = styled.button`
     font-weight: 700;
     color: #FFFFFF;
 
+    &:nth-last-child(2){
+        margin-top: auto;
+    }
     &:last-child {
         background-color: #FF4747;
+        margin: 15px;
     }
 `
