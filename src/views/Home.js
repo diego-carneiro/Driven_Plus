@@ -13,7 +13,7 @@ export default function Home() {
 
     const { token } = React.useContext(AuthContext);
     const navigate = useNavigate();
-    const [user, setUser] = useState(() => {
+    const [user] = useState(() => {
         const userStorage = localStorage.getItem("user");
         return (JSON.parse(userStorage));
     });
@@ -22,7 +22,7 @@ export default function Home() {
         return (JSON.parse(storedPurchase));
     })
 
-    const [userId, setUserId] = useState(() => {
+    const [userId] = useState(() => {
         const storedId = localStorage.getItem("userId");
         return storedId;
     });

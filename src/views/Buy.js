@@ -94,7 +94,7 @@ export default function Buy() {
                         </Link>
                     </IconContext.Provider>
                 </Header>
-                <img src={info.image} />
+                <img src={info.image} alt="loading"/>
                 <h1>{info.name}</h1>
                 <InformationBox>
                     <H2Title>

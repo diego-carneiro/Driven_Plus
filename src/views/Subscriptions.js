@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
-import { useParams } from "react-router-dom"
 import axios from "axios";
 
 import Loading from "../components/Loading";
@@ -44,9 +43,9 @@ export default function Subscriptions() {
         <Container>
             <p>Escolha seu Plano</p>
             {info.map((items) => (
-                <Link to={`/subscriptions/${items.id}`} >
+                <Link to={`/subscriptions/${items.id}`} key={items.id}>
                     <PassBox key={items.id}>
-                        <img src={items.image} />
+                        <img src={items.image} alt="loading"/>
                         <p>R$ {items.price}</p>
                     </PassBox>
                 </Link>

@@ -8,11 +8,8 @@ import Subscriptions from "./views/Subscriptions"
 import Buy from "./views/Buy";
 import Home from  "./views/Home";
 import Users from "./views/Users";
-import { AuthContext } from "./providers/auth";
 
 export default function App() {
-
-    const user = React.useContext(AuthContext);
 
     return (
 
