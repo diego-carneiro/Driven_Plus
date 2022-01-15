@@ -5,13 +5,15 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from 'react-icons/fa';
 import { IconContext } from "react-icons";
+import axios from "axios";
 
 import { AuthContext } from "../providers/auth";
 
-export default function Users() {
+export default function Update() {
 
-    const navigate = useNavigate();
     const { theme, themeLight, themeDark } = React.useContext(AuthContext);
+    const { token } = React.useContext(AuthContext);
+    const navigate = useNavigate();
     const [user] = useState(() => {
         const userStorage = localStorage.getItem("user");
         return (JSON.parse(userStorage));
@@ -20,26 +22,61 @@ export default function Users() {
         const storedId = localStorage.getItem("userId");
         return storedId;
     });
+    const storage = (key, value) => {
+        localStorage.setItem(key, value);
+    }
+    const initialValue = {
+        name: "",
+        cpf: user.cpf,
+        email: "",
+        currentPassword: "",
+        newPassword: "",
+    };
+
+    const [input, setInput] = useState(initialValue);
+
+    function onChange(ev) {
+        const { name, value } = ev.target;
+
+        setInput({ ...input, [name]: value })
+    }
+console.log(input);
+    function update() {
+        const promise = axios.put("https://mock-api.driven.com.br/api/v4/driven-plus/users/", input,
+            {
+                headers: {
+                    "Authorization": `Bearer ${token}`
+                }
+            }
+        );
+        promise.then((response) => {
+            storage("user", JSON.stringify(response.data));
+            navigate(`/users/${userId}`);
+        });
+        promise.catch((error) => {
+            alert("Erro ao atualizar dados.")
+        console.log(error);
+        });
+    }
 
     return (
         <ThemeProvider theme={theme ? themeDark : themeLight}>
             <Container>
                 <Header>
                     <IconContext.Provider value={{ color: "white", size: "34px" }}>
-                        <FaArrowLeft onClick={() => navigate("/home")} />
+                        <FaArrowLeft onClick={() => navigate(`/users/${userId}`)} />
                     </IconContext.Provider>
                 </Header>
-                <p>Dados e preferências</p>
-                <Input placeholder={user.name} disabled={true}/>
-                <Input placeholder={user.cpf} disabled={true}/>
-                <Input placeholder={user.email} disabled={true}/>
-                <Button onClick={() => navigate(`/users/${userId}/update`)}> ATUALIZAR </Button>
-                <Button onClick={() => navigate("/themes")}>TEMAS</Button>
+                <Input placeholder={user.name} name="name" onChange={onChange} />
+                <Input placeholder={user.cpf} disabled={true} />
+                <Input placeholder={user.email} name="email" onChange={onChange} />
+                <Input placeholder="Senha atual" name="currentPassword" onChange={onChange} />
+                <Input placeholder="Nova senha" name="newPassword" onChange={onChange} />
+                <Button onClick={update}>SALVAR</Button>
             </Container>
         </ThemeProvider>
     );
 }
-// ::::::::::Styled-Components::::::::::
 const Container = styled.div`
     width: 100vw;
     min-height: 100vh;

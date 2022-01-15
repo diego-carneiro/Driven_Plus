@@ -20,8 +20,6 @@ export default function Login() {
         localStorage.setItem(key, value);
     }
 
-  
-
     function onChange(ev) {
         const { name, value } = ev.target
 
@@ -35,7 +33,7 @@ export default function Login() {
         promise.then(response => {
             storage("user", JSON.stringify(response.data));
             storage("userToken", response.data.token);
-            navigate(response.data.membership ? "/subscriptions" : "/subscriptions");
+            navigate(response.data.membership ? "/home" : "/subscriptions");
         });
         promise.catch(() => alert("Erro ao realizar login"));
     }

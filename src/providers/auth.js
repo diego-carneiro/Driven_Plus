@@ -13,10 +13,29 @@ export const AuthProvider = ({ children }) => {
         if (tokenStorage) {
             setToken(tokenStorage);
         } 
+    }, []);  
+    
+    const [theme, setTheme] = useState(false);
+
+    const themeLight = {
+        background: "#FF4791",
+        text: "black",
+        button: "black"
+    }
+    const themeDark = {
+        background: "black",
+        text: "#FFFFFF",
+        button: "#FF4791",
+    }
+
+    useEffect(() => {
+        const currentTheme = localStorage.getItem("theme");
+
+        currentTheme ?  setTheme(true) : setTheme(false);
     }, []);
 
     return (
-        <AuthContext.Provider value={{ token, setToken }}>
+        <AuthContext.Provider value={{ token, setToken, theme, setTheme, themeLight, themeDark }}>
             {children}
         </ AuthContext.Provider>
     )

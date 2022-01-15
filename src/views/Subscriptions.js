@@ -40,17 +40,17 @@ export default function Subscriptions() {
     }
 
     return (
-        <Container>
-            <p>Escolha seu Plano</p>
-            {info.map((items) => (
-                <Link to={`/subscriptions/${items.id}`} key={items.id}>
-                    <PassBox key={items.id}>
-                        <img src={items.image} alt="loading"/>
-                        <p>R$ {items.price}</p>
-                    </PassBox>
-                </Link>
-            ))}
-        </Container>
+            <Container>
+                <p>Escolha seu Plano</p>
+                {info.map((items) => (
+                    <Link to={`/subscriptions/${items.id}`} key={items.id}>
+                        <PassBox key={items.id}>
+                            <img src={items.image} alt="loading" />
+                            <p>R$ {items.price}</p>
+                        </PassBox>
+                    </Link>
+                ))}
+            </Container>
     );
 }
 // ::::::::::Styled-Components::::::::::

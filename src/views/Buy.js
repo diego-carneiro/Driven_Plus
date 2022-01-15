@@ -17,7 +17,6 @@ import { AuthContext } from "../providers/auth";
 export default function Buy() {
 
     const storage = (key, value) => {
-
         localStorage.setItem(key, value);
     }
 
@@ -166,9 +165,6 @@ const Container = styled.div`
         font-size: 32px;
         font-weight: 700;
         color: #FFFFFF;
-    }
-    img{
-        margin-right: 22px;
     }
 `;
 const WarningContainer = styled.div`

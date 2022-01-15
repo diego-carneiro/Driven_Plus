@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components'
+import { ThemeProvider } from 'styled-components';
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
@@ -11,6 +12,7 @@ import { AuthContext } from "../providers/auth";
 
 export default function Home() {
 
+    const { theme, themeDark, themeLight} = React.useContext(AuthContext);
     const { token } = React.useContext(AuthContext);
     const navigate = useNavigate();
     const [user] = useState(() => {
@@ -20,8 +22,7 @@ export default function Home() {
     const [userPurchase] = useState(() => {
         const storedPurchase = localStorage.getItem("userPurchase");
         return (JSON.parse(storedPurchase));
-    })
-
+    });
     const [userId] = useState(() => {
         const storedId = localStorage.getItem("userId");
         return storedId;
@@ -34,39 +35,41 @@ export default function Home() {
                     "Authorization": `Bearer ${token}`
                 }
             }
-        )
+        );
         promise.then(() => {
             navigate("/subscriptions");
         });
-        promise.catch(error => alert("Erro ao cancelar plano."));
+        promise.catch(alert("Erro ao cancelar plano."));
     }
 
     return (
-        <Container>
-            <Header>
-                <Logo src={userPurchase.membership.image} />
-                <IconContext.Provider value={{ color: "white", size: "34px" }}>
-                    <Link to={`/users/${userId}`}>
-                        <BsPersonCircle />
-                    </Link>
-                </IconContext.Provider>
-            </Header>
-            <Content>
-                <h1>Olá, {user.name}</h1>
-                {userPurchase.membership.perks.map((items, index) => (
-                    <Button key={items.id}><a href={items.link}>{items.title}</a></Button>
-                ))}
-                <Button onClick={() => navigate("/subscriptions")}>Mudar plano</Button>
-                <Button onClick={cancelSubscription}>Cancelar plano</Button>
-            </Content>
-        </Container>
+        <ThemeProvider theme={theme ? themeDark : themeLight}>
+            <Container>
+                <Header>
+                    <Logo src={userPurchase.membership.image} />
+                    <IconContext.Provider value={{ color: "white", size: "34px" }}>
+                        <Link to={`/users/${userId}`}>
+                            <BsPersonCircle />
+                        </Link>
+                    </IconContext.Provider>
+                </Header>
+                <Content>
+                    <h1>Olá, {user.name}</h1>
+                    {userPurchase.membership.perks.map((items, index) => (
+                        <Button key={items.id}><a href={items.link}>{items.title}</a></Button>
+                    ))}
+                    <Button onClick={() => navigate("/subscriptions")}>Mudar plano</Button>
+                    <Button onClick={cancelSubscription}>Cancelar plano</Button>
+                </Content>
+            </Container>
+        </ThemeProvider>
     );
 }
 // ::::::::::Styled-Components::::::::::
 const Container = styled.div`
     width: 100vw;
     min-height: 100vh;
-    background-color: black;
+    background-color:  ${props => props.theme.background};
     padding: 32px 38px 5px 38px;
 
     display: flex;
@@ -76,7 +79,7 @@ const Container = styled.div`
     h1{
         font-size: 24px;
         font-weight: 700;
-        color: #FFFFFF;
+        color: ${props => props.theme.text};
     }
     a{
         text-decoration: none;
@@ -108,7 +111,7 @@ const Button = styled.button`
     width: 100%;
     height: 52px;
     margin-top: 24px;
-    background-color: #FF4791;
+    background-color: ${props => props.theme.button};
     border-radius: 8px;
     border: none;
     font-size: 14px;

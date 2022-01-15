@@ -5,39 +5,46 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FaArrowLeft } from 'react-icons/fa';
 import { IconContext } from "react-icons";
-
 import { AuthContext } from "../providers/auth";
 
-export default function Users() {
+export default function Themes() {
 
     const navigate = useNavigate();
-    const { theme, themeLight, themeDark } = React.useContext(AuthContext);
-    const [user] = useState(() => {
-        const userStorage = localStorage.getItem("user");
-        return (JSON.parse(userStorage));
-    });
+
     const [userId] = useState(() => {
         const storedId = localStorage.getItem("userId");
         return storedId;
     });
 
+    const { theme, setTheme, themeLight, themeDark } = React.useContext(AuthContext);
+
+    const storage = (key, value) => {
+        localStorage.setItem(key, value);
+    }
+
     return (
-        <ThemeProvider theme={theme ? themeDark : themeLight}>
+        <ThemeProvider theme={theme ? themeDark : themeLight} >
             <Container>
                 <Header>
                     <IconContext.Provider value={{ color: "white", size: "34px" }}>
-                        <FaArrowLeft onClick={() => navigate("/home")} />
+                        <FaArrowLeft onClick={() => navigate(`/users/${userId}`)} />
                     </IconContext.Provider>
                 </Header>
-                <p>Dados e preferências</p>
-                <Input placeholder={user.name} disabled={true}/>
-                <Input placeholder={user.cpf} disabled={true}/>
-                <Input placeholder={user.email} disabled={true}/>
-                <Button onClick={() => navigate(`/users/${userId}/update`)}> ATUALIZAR </Button>
-                <Button onClick={() => navigate("/themes")}>TEMAS</Button>
+                <p>Escolha seu Tema</p>
+                <Content>
+                    <Button onClick={() => {
+                        setTheme(true)
+                        storage("theme", theme);
+                    }}>Dark</Button>
+                    <Button onClick={() => {
+                        setTheme(false);
+                        storage("theme", theme);
+                    }}>Light</Button>
+                </Content>
             </Container>
         </ThemeProvider>
     );
+
 }
 // ::::::::::Styled-Components::::::::::
 const Container = styled.div`
@@ -52,19 +59,23 @@ const Container = styled.div`
 
     p{
         font-size: 32px;
-        color:${props => props.theme.text}
+        color:${props => props.theme.text};
     }
 `
-const Input = styled.input`
-    width: 300px;
-    height: 52px;
-    border-radius: 8px;
-    margin-top: 16px;
-    border: none;
-    padding-left: 14px;
-    font-size: 14px;
-    color: #7E7E7E;
-    background: #EBEBEB;
+const Content = styled.div`
+    width: 100%;
+    height: fit-content;
+    margin-top: 150px;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+
+`
+const Header = styled.div`
+    width: 100%;
+    height: fit-content;
 `
 const Button = styled.button`
     width: 300px;
@@ -75,13 +86,5 @@ const Button = styled.button`
     border: none;
     font-size: 14px;
     font-weight: 700;
-    color: #FFFFFF;   
-    &:last-child{
-        margin-top: auto;
-        margin-bottom: 15px;
-    }
-`
-const Header = styled.div`
-    width: 100%;
-    height: fit-content;
+    color: #FFFFFF;
 `
