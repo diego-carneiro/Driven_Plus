@@ -7,7 +7,6 @@ import axios from "axios";
 
 import DrivenLogo from "../components/DrivenLogo";
 
-
 export default function Login() {
 
     const navigate = useNavigate();
@@ -19,7 +18,6 @@ export default function Login() {
     const storage = (key, value) => {
         localStorage.setItem(key, value);
     }
-
     function onChange(ev) {
         const { name, value } = ev.target
 
@@ -39,13 +37,12 @@ export default function Login() {
     }
 
     return (
-
         <Container>
             <Form onSubmit={onSubmit}>
                 <DrivenLogo />
                 <Input placeholder="E-mail" type="text" name="email" onChange={onChange} />
                 <Input placeholder="Senha" type="password" name="password" onChange={onChange} />
-                <Button>ENTRAR</Button>
+                <Button type="submit">ENTRAR</Button>
                 <Link to="/sign-up">
                     <SignUp>
                         Não possuí uma conta? Cadastre-se

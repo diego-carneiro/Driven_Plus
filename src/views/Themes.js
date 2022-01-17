@@ -21,7 +21,7 @@ export default function Themes() {
     const storage = (key, value) => {
         localStorage.setItem(key, value);
     }
-
+console.log(theme);
     return (
         <ThemeProvider theme={theme ? themeDark : themeLight} >
             <Container>

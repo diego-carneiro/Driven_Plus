@@ -15,7 +15,7 @@ export const AuthProvider = ({ children }) => {
         } 
     }, []);  
     
-    const [theme, setTheme] = useState(false);
+    const [theme, setTheme] = useState(true);
 
     const themeLight = {
         background: "#FF4791",
